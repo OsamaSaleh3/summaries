@@ -1,0 +1,41 @@
+@media print {
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body,
+  .markdown-reading-view,
+  .markdown-preview-view {
+    background: #121212 !important;
+    color: #e6e6e6 !important;
+  }
+
+  /* INLINE CODE (`file.txt`) */
+  p code, li code, td code {
+    background: #1e1e1e !important;
+    color: #e6e6e6 !important;
+    border: 1px solid #333 !important;
+    padding: 0.05rem 0.25rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-family: "Fira Code", Consolas, monospace;
+  }
+
+  /* FENCED CODE BLOCKS (``` ... ```) */
+  pre {
+    background: #0d1117 !important;      /* full dark panel */
+    border: 1px solid #30363d !important;
+    border-radius: 6px;
+    padding: 12px 14px !important;
+    margin: 12px 0 !important;
+    overflow: visible !important;
+    white-space: pre-wrap !important;
+    word-break: break-word !important;
+    page-break-inside: avoid;
+  }
+
+  pre code {
+    background: none !important;         /* remove inline pill style */
+    color: #c9d1d9 !important;
+    font-size: 0.95rem;
+    font-family: "Fira Code", Consolas, monospace !important;
+  }
+}
