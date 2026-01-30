@@ -17,9 +17,7 @@
 - [[11 - Authorization (Policy Based)]]
 - [[12 - Identity]]
 - [[13 - Identity Step]]
-- [[14 - Clean Architecture]]
-- [[15 - DDD]]
-- [[16 - learning path]]
+- 
 
 
 
