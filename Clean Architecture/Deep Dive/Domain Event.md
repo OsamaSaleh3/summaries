@@ -179,3 +179,188 @@ public class Admin : Entity
 _في الدفعة القادمة، سنرى كيف سيتم نشر هذه الأحداث تلقائياً عند الحفظ، وكيفية التعامل مع الـ Side Effects._
 
 
+---
+
+# Deep Dive: Domain Events Pattern - Part 2 (Orchestration vs. Events)
+
+في هذه الدفعة الثانية، سنقارن بين النهج الحالي (Orchestration) والنهج الجديد (Domain Events)، وسنقوم بتطبيق الـ Event Handlers بشكل عملي لفهم كيف تتحول عملية حذف الاشتراك من "عملية واحدة ضخمة" إلى "سلسلة تفاعلات منفصلة".
+
+---
+
+## 1. Orchestration vs. Domain Events 🥊
+
+قبل كتابة الكود، يجب أن نفهم الفرق الجوهري بين الأسلوبين.
+
+### A. Orchestration Approach (النهج الحالي)
+
+في هذا الأسلوب، الـ Command Handler يلعب دور "المايسترو" أو القائد الذي يأمر الجميع.
+
+- **كيف يعمل؟**
+    
+    - يا `AdminRepository`، احذف الاشتراك من الأدمن.
+        
+    - يا `SubscriptionRepository`، احذف الاشتراك نفسه.
+        
+    - يا `GymsRepository`، احذف كل الجيمات.
+        
+- **الميزة:** سهل الفهم (Low Cognitive Load). تقرأ الكود وتعرف كل شيء يحدث خطوة بخطوة.
+    
+- **العيوب:**
+    
+    - **تداخل المسؤوليات (Coupling):** الـ Subscription Feature تعرف تفاصيل عن الـ Gyms Feature.
+        
+    - **صعوبة إعادة الاستخدام:** لو أردنا حذف جيم لوحده، سنكتب كود الحذف مرة أخرى. لو أردنا حذف أدمن (الذي سيحذف اشتراكاً، الذي سيحذف جيماً...)، سيصبح الكود معقداً ومتشابكاً.
+        
+
+### B. Domain Events Approach (النهج الجديد)
+
+في هذا الأسلوب، كل جزء يقوم بعمله فقط، ثم يخبر النظام "لقد انتهيت".
+
+- **كيف يعمل؟**
+    
+    - الـ Command Handler يقول: "يا `AdminRepository`، احذف الاشتراك من الأدمن". **فقط.**
+        
+    - الأدمن يحذف الرابط ويرفع حدث: `SubscriptionDeleted`.
+        
+    - الـ Gyms Feature تسمع الحدث وتقول: "أوه! تم حذف اشتراك؟ سأحذف الجيمات التابعة له".
+        
+    - الـ Subscriptions Feature تسمع الحدث وتقول: "سأحذف سجل الاشتراك نفسه".
+        
+- **الميزة:** فصل تام (Decoupling). يمكنك إضافة ميزات جديدة (مثل إرسال إيميل) دون لمس كود الحذف الأصلي.
+    
+
+---
+
+## 2. Refactoring the Command Handler 🛠️
+
+سنقوم الآن بتنظيف `DeleteSubscriptionCommandHandler` ليتحول من "Orchestrator" إلى مجرد "Initiator".
+
+### قبل (The Old Way):
+
+كان الكود يحقن `IGymsRepository` و `ISubscriptionsRepository` ويقوم بكل الحذوفات بنفسه.
+
+### بعد (The New Way):
+
+سنحذف كل شيء ونبقي فقط على تحديث الـ Admin.
+
+
+```C#
+public class DeleteSubscriptionCommandHandler : IRequestHandler<DeleteSubscriptionCommand, ErrorOr<Success>>
+{
+    private readonly IAdminRepository _adminRepository;
+    private readonly IUnitOfWork _unitOfWork; // (اختياري كما سنرى لاحقاً)
+
+    public async Task<ErrorOr<Success>> Handle(...)
+    {
+        // 1. Get Admin
+        var admin = await _adminRepository.GetByIdAsync(...);
+        
+        // 2. Delete Subscription (This captures the event internally)
+        admin.DeleteSubscription(command.SubscriptionId);
+
+        // 3. Update Admin Only
+        await _adminRepository.UpdateAsync(admin);
+        
+        // 4. Save Changes
+        // عند الحفظ، سيتم إطلاق الحدث تلقائياً (سننفذ هذا في السكشن القادم)
+        await _unitOfWork.CommitChangesAsync();
+
+        return Result.Success;
+    }
+}
+```
+
+- **ملاحظة:** تم حذف كل الكود المتعلق بحذف الجيمات والاشتراكات من هنا.
+    
+
+---
+
+## 3. Implementing Event Handlers 🧩
+
+الآن، من سيقوم بالعمل القذر (حذف الجيمات والاشتراكات)؟ إنهم الـ **Notification Handlers**.
+
+### Handler 1: حذف سجل الاشتراك نفسه
+
+في `Application/Subscriptions/Events`:
+
+
+
+```C#
+public class SubscriptionDeletedEventHandler : INotificationHandler<SubscriptionDeletedEvent>
+{
+    private readonly ISubscriptionsRepository _subscriptionsRepository;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public async Task Handle(SubscriptionDeletedEvent notification, CancellationToken cancellationToken)
+    {
+        // 1. Get the subscription
+        var subscription = await _subscriptionsRepository.GetByIdAsync(notification.SubscriptionId);
+
+        // 2. Remove it
+        await _subscriptionsRepository.RemoveSubscriptionAsync(subscription);
+
+        // 3. Save
+        await _unitOfWork.CommitChangesAsync();
+    }
+}
+```
+
+### Handler 2: حذف الجيمات التابعة
+
+في `Application/Gyms/Events`:
+
+
+
+```C#
+public class SubscriptionDeletedEventHandler : INotificationHandler<SubscriptionDeletedEvent>
+{
+    private readonly IGymsRepository _gymsRepository;
+    private readonly IUnitOfWork _unitOfWork;
+
+    public async Task Handle(SubscriptionDeletedEvent notification, CancellationToken cancellationToken)
+    {
+        // 1. List all gyms for this subscription
+        var gyms = await _gymsRepository.ListBySubscriptionIdAsync(notification.SubscriptionId);
+
+        // 2. Remove them all
+        await _gymsRepository.RemoveRangeAsync(gyms);
+
+        // 3. Save
+        await _unitOfWork.CommitChangesAsync();
+    }
+}
+```
+
+---
+
+## 4. Key Concepts & Side Notes 💡
+
+### A. One-to-Many Relationship
+
+لاحظ أن حدثاً واحداً (`SubscriptionDeletedEvent`) تسبب في تشغيل **اثنين** من الـ Handlers في أماكن مختلفة تماماً من النظام (`Gyms` و `Subscriptions`). هذا هو جوهر الـ Decoupling.
+
+### B. Unit of Work Redundancy?
+
+المحاضر أشار لنقطة متقدمة: بما أننا في DDD نحاول دائماً تعديل **Aggregate واحد فقط** في كل عملية (Transaction)، فإن الـ `IUnitOfWork` التي بنيناها قد تكون زائدة عن الحاجة.
+
+- الـ Command Handler عدل الـ Admin فقط.
+    
+- الـ Event Handler الأول عدل الـ Subscription فقط.
+    
+- الـ Event Handler الثاني عدل الـ Gyms فقط.
+    
+    كل واحد منهم يمكنه استخدام `SaveChangesAsync` الخاص بـ EF Core مباشرة، لأن كل عملية هي Transaction مستقلة وصغيرة.
+    
+
+### C. Eventual Consistency (الاتساق النهائي)
+
+بما أن العمليات أصبحت منفصلة، النظام لم يعد "Atomic" بالمعنى التقليدي (كل شيء يحدث في لحظة واحدة).
+
+- قد يتم حذف الاشتراك من الأدمن، ولكن الجيمات تحذف بعده بـ 100 ميلي ثانية.
+    
+- هذا يسمى **Eventual Consistency**: النظام سيصبح متسقاً "في النهاية"، وليس بالضرورة "الآن".
+    
+- سنتحدث عن كيفية التعامل مع الأخطاء في هذا السيناريو في السكشن القادم (مثلاً: ماذا لو حذفنا الأدمن وفشل حذف الجيمات؟).
+    
+
+---
