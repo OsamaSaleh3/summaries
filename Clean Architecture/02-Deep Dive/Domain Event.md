@@ -126,7 +126,7 @@ public abstract class Entity
     public Guid Id { get; init; } // Init-only for immutability
 
     // القائمة الداخلية لتخزين الأحداث
-    private readonly List<IDomainEvent> _domainEvents = new();
+    protected readonly List<IDomainEvent> _domainEvents = new();
 
     // خاصية للوصول للأحداث (للنشر لاحقاً)
     public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
