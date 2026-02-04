@@ -1,6 +1,7 @@
 [[Getting started with Clean Architecture]]
-[[Validation]]
-[[Domain Event]]
+[[01 - Validation]]
+[[02 - Domain Event]]
+[[03 - Eventual Consistency]]
 
 
 
