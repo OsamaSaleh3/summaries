@@ -15,13 +15,13 @@ Model binding in ASP.NET Core is the process where the framework **automatically
 
 👉 Example:
 
-csharp
+```csharp
 [HttpGet("{id}")]
 public IActionResult Get(int id)  // id comes from route {id}
 {
     return Ok(id);
 }
-```
+
 
 If you call `/api/products/5`, `id` is automatically **bound** to `5`.
 
@@ -36,7 +36,7 @@ If you call `/api/products/5`, `id` is automatically **bound** to `5`.
 
 👉 Example:
 
-```csharp
+
 public IActionResult Get([FromQuery(Name="page")] int pageNumber)
 ```
 
