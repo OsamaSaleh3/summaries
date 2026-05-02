@@ -9,4 +9,6 @@
 [[9-Database Keys]]
 [[10-ER-to-Relational Mapping]]
 [[11-Database Normalization - 1NF, 2NF, 3NF, 4NF, 5NF]]
+[[12-SQL Query Life Cycle]]
+
 
