@@ -1,4 +1,4 @@
-# Database Internals: Relational Model, Algebra, and Optimization
+
 
 ## Executive Summary
 
