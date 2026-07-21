@@ -1,3 +1,10 @@
 [[01 - IAM]]
 [[02 - EC2]]
 [[03 - EC2 Instance Storage]]
+[[04 - ELB & ASG - Elastic Load Balancing & Auto Scaling Groups]]
+[[05 - First Project to do]]
+[[06 - Amazon S3]]
+[[07 - Databases & Analytics]]
+[[08 - Other Compute Services ECS, Lambda, Batch, Lightsail]]
+[[09 - Deployments & Managing Infrastructure at Scale]]
+
