@@ -9,4 +9,7 @@
 [[09 - Deployments & Managing Infrastructure at Scale]]
 [[10 - Leveraging the AWS Global Infrastructure]]
 [[11 - Cloud Integration]]
+[[12 - Cloud Monitoring]]
+[[13 - VPC & Networking]]
+
 
