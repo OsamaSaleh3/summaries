@@ -1,6 +1,4 @@
 
----
-
 ## Executive Summary
 
 AWS Identity and Access Management (IAM) is a foundational, global security service used to manage who can access your AWS resources (authentication) and what they are allowed to do (authorization). It operates on the **principle of least privilege**, which dictates that users should only be granted the minimum permissions necessary to complete their tasks. IAM is entirely free to use and forms the core security framework for safeguarding your AWS cloud infrastructure.

@@ -1,4 +1,3 @@
-# Deploying and Managing Infrastructure at Scale
 
 ## Executive Summary
 
