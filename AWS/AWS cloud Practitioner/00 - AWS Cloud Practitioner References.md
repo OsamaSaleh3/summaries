@@ -7,4 +7,6 @@
 [[07 - Databases & Analytics]]
 [[08 - Other Compute Services ECS, Lambda, Batch, Lightsail]]
 [[09 - Deployments & Managing Infrastructure at Scale]]
+[[10 - Leveraging the AWS Global Infrastructure]]
+[[11 - Cloud Integration]]
 
