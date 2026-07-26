@@ -118,6 +118,9 @@ Periodically, **AWS Glue** extracts raw database logs and user activity files fr
     
 - **"Single-digit millisecond NoSQL latency", "Key-value tables"** $\rightarrow$ **Amazon DynamoDB**.
     
+- **DynamoDB Table Classes:** DynamoDB offers a **Standard** and an **Infrequent Access (IA)** table class, letting you optimize cost based on how often your data is accessed — similar in spirit to S3 storage classes.
+
+- **RDS Engines:** RDS supports MySQL, PostgreSQL, MariaDB, Oracle, Microsoft SQL Server, IBM DB2, and Aurora.
 
 ### Cost Traps & Operational Warnings
 

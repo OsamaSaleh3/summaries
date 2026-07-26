@@ -88,7 +88,9 @@ Imagine a secure corporate environment. The **VPC** creates the overall secure c
     
 - **VPN Components:** Site-to-Site VPN requires a **Customer Gateway (CGW)** on your end and a **Virtual Private Gateway (VGW)** on the AWS side.
     
+- **One Internet Gateway per VPC:** A VPC can have only **one** Internet Gateway attached to it at a time.
 
+- **NAT Gateway vs. NAT Instance:** A **NAT Gateway** is the AWS-managed option (scales automatically, no maintenance). A **NAT Instance** is a self-managed EC2-based alternative — you handle its patching, scaling, and availability yourself.
 ### Quick Reference Table
 
 |**Concept**|**What it is**|**Key thing to remember**|

@@ -73,6 +73,15 @@ Imagine a developer writes code for a Python web application. They push the code
 - **Orchestration vs. Build:** Do not confuse **CodePipeline** (the pipeline traffic cop) with **CodeBuild** (the actual tool compiling code).
     
 
+- **Elastic Beanstalk's 3 architecture models:**
+    1. **Single instance** — good for dev environments.
+    2. **Load Balancer + Auto Scaling Group** — for production/pre-production web apps.
+    3. **Standalone Auto Scaling Group (no load balancer)** — for non-web worker apps.
+
+- **CloudFormation Change Sets:** Before applying an update to a stack, CloudFormation can generate a "change set" showing exactly what will be added, modified, or replaced — including a warning if a resource will be **deleted and recreated**.
+
+- **SSM Agent requirement:** Systems Manager requires the SSM Agent to be installed on each managed instance. It's pre-installed on Amazon Linux and Ubuntu AMIs by default, but must be manually installed elsewhere.
+
 ## Quick Reference Table
 
 |**Concept**|**What it is**|**Key thing to remember**|

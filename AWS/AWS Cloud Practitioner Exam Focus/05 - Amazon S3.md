@@ -63,6 +63,9 @@ Imagine you run a global photo-sharing application. Your physical corporate offi
     
 - **Shared Responsibility:** AWS handles the physical storage infrastructure and hardware durability. _You_ are responsible for versioning, lifecycle configuration, encryption settings, and locking down bucket policies.
     
+- **IAM Access Analyzer for S3:** A monitoring feature that scans your bucket policies, ACLs, and access point policies to surface which buckets are publicly accessible or shared with other AWS accounts. Explicitly flagged as exam-relevant.
+
+- **Replication is not retroactive:** Enabling S3 Replication only applies to objects uploaded **after** replication is turned on. To replicate pre-existing objects, you need an **S3 Batch Operation**.
 
 ## Quick Reference Table
 

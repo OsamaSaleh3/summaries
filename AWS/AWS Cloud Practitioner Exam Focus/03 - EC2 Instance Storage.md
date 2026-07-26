@@ -56,7 +56,13 @@ Think of an EC2 instance as a blank computer. An AMI is the installation drive t
 - **HPC Keyword:** Whenever an exam scenario mentions "High Performance Computing (HPC)", choose FSx for Lustre.
     
 - **Shared Responsibility:** AWS handles hardware failure and replication; you handle your own backups and encryption.
-    
+
+- **Delete on Termination:** This EBS volume attribute is **ON by default for the root volume** and **OFF by default for any additional attached volumes** — it controls whether that volume is deleted when the EC2 instance is terminated. Called out directly as exam-relevant.
+  
+- **AMI Sources:** AMIs come from three places — an **AWS-provided public AMI** (e.g., Amazon Linux 2), your own **custom AMI**, or an **AWS Marketplace AMI** (built and sold by third-party vendors).
+  
+- **EC2 Image Builder cost trap:** The service itself is free, but you still pay for the EC2 instances it launches during build/test and for AMI storage — it is not free end-to-end.
+
 
 # Quick Reference Table
 

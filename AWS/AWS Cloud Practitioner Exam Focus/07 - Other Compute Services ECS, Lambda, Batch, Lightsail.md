@@ -126,6 +126,9 @@ AWS can be complex, requiring you to manually configure networking, storage, sec
     
 - **Distractor Warning:** In most CLF-C02 questions, Lightsail is a distractor answer. Only choose it if the scenario explicitly emphasizes simplicity, an unconfigured flat-rate cost, or an extreme lack of cloud expertise.
     
+- **Lambda Free Tier:** 1 million free invocations and 400,000 GB-seconds of compute time every month.
+
+- **API Gateway WebSocket support:** In addition to REST/HTTP APIs, API Gateway also supports **WebSocket APIs** for real-time, two-way communication.
 
 ## Quick Reference Table
 

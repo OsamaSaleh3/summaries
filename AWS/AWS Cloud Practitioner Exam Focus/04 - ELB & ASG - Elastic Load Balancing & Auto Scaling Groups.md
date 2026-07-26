@@ -83,6 +83,9 @@ When deployed together, ELB and ASG form the ultimate cloud architecture. The Au
     
 - **High Availability Setup:** To achieve true High Availability, both your ELB and your ASG must be configured to run across multiple Availability Zones.
     
+- **SSL/TLS Termination:** ELB can handle SSL/TLS termination for your application, offloading encryption/decryption work from your backend EC2 instances.
+
+- **Manual Scaling:** One of the named ASG scaling strategy types — simply changing the desired/min/max capacity by hand, distinct from Dynamic, Scheduled, or Predictive Scaling.
 
 ### Quick Reference Table
 

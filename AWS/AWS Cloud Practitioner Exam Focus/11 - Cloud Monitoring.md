@@ -47,7 +47,9 @@ These services are designed to work together to give you total visibility. **Clo
     
 - **Microservices Debugging:** Anytime a scenario mentions "distributed tracing," "visual map," or debugging "microservices," the answer is **AWS X-Ray**.
     
+- **RAM is not a default CloudWatch metric:** CloudWatch does **not** automatically track memory/RAM utilization for EC2 instances — this must be pushed manually as a custom metric (e.g., via the CloudWatch agent). A very commonly tested exam trap.
 
+- **Monitoring intervals:** EC2 instances report standard CloudWatch metrics every **5 minutes** by default. Enabling **Detailed Monitoring** (extra cost) reduces this to every **1 minute**.
 ## Quick Reference Table
 
 |**Concept**|**What it is**|**Key thing to remember**|

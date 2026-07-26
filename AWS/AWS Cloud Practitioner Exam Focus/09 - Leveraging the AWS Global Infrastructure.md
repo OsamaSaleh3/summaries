@@ -86,6 +86,7 @@ Imagine you have an e-commerce platform hosted in Ireland, but your customers li
         
     - Look for **"extension of a region into a specific city"** $\rightarrow$ choose **AWS Local Zones**.
         
+- **CloudFront DDoS protection:** Because content is distributed across edge locations globally, CloudFront inherently helps protect against DDoS attacks, and integrates with **AWS Shield** and **AWS WAF** for additional protection.
 
 ## Quick Reference Table
 

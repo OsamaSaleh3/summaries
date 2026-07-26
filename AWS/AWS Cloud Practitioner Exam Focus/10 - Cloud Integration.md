@@ -86,6 +86,9 @@ Imagine an e-commerce website. When a customer places an order, the frontend web
     
 - **Scenario:** A company wants to migrate an existing app using MQTT or AMQP protocols to AWS with minimal code changes. **Answer:** Use Amazon MQ.
     
+- **Amazon MQ scalability:** Unlike SQS/SNS (which scale near-infinitely because they're fully serverless), Amazon MQ runs on managed broker servers and doesn't scale as far — use a **Multi-AZ deployment** for high availability instead.
+
+- **Amazon MQ dual capability:** A single Amazon MQ broker provides **both** queue-style (SQS-like) **and** topic-style (SNS-like) messaging.
 
 ## Quick Reference Table
 

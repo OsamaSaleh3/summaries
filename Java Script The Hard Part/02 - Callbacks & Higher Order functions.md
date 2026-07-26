@@ -229,3 +229,4 @@ const grouped = flat.groupBy(el => el % 2 === 0 ? 'even' : 'odd');
 
 - Interview relevance: being able to **narrate your code's execution flow** (state, what's currently running, why something failed) is itself a tested skill — not just writing correct syntax.
 - Takeaway: the ability to verbalize the "how and why" (not just recite code) signals strong technical communication, which is emphasized as increasingly valuable alongside raw coding ability.
+
