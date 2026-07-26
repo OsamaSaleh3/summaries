@@ -10,3 +10,6 @@
 [[10 - Cloud Integration]]
 [[11 - Cloud Monitoring]]
 [[12 - VPC & Networking]]
+[[13 - Security & Compliance]]
+[[14 - Machine Learning]]
+
